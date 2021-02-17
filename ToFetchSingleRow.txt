@@ -1,0 +1,27 @@
+
+CREATE TABLE theatre (
+seating_number number,movie_name varchar2(30),ticket_price number
+
+);
+INSERT INTO theatre VALUES ( 50, 'PursuitOfHappiness','250' );
+create or replace function SearchOneRow (seat_no number)
+   return sys_refcursor
+is
+   c   sys_refcursor;
+begin
+   open c for
+      select *
+        from theatre
+       where seating_number = seat_no;
+
+   return c;
+end SearchOneRow;
+declare
+c sys_refcursor;
+TYPE theatre is RECORD(seating_number number,movie_name varchar2(20),ticket_price number);
+rec theatre;
+begin
+  c:=SearchOneRow(171);
+  fetch c into rec;
+  dbms_output.put_line(rec.seating_number||','||rec.movie_name||','||rec.ticket_price);
+end;

@@ -1,0 +1,28 @@
+CREATE TABLE student(
+  stud_id number(20),
+  emp_name varchar2(25),
+  
+  CONSTRAINT student_pk PRIMARY KEY (stud_id));
+CREATE TABLE branch(
+  branch_id number(20),
+  branch_name varchar2(25),
+  
+  CONSTRAINT branch_pk PRIMARY KEY (branch_id));
+CREATE OR REPLACE PROCEDURE Insert_multiple(stud_id IN number,emp_name IN varchar2,branch_id IN number,branch_name IN varchar2)IS
+  BEGIN     
+  insert into student values(stud_id,emp_name);
+  insert into branch values(branch_id,branch_name);
+  END;     
+DECLARE
+BEGIN
+insert_multiple(10,'satya',2,'ECE');
+EXCEPTION
+ WHEN DUP_VAL_ON_INDEX THEN
+ dbms_output.put_line('unique index are repeated re enter data.');
+ rollback;
+ WHEN OTHERS THEN 
+ dbms_output.put_line('data types entered does not match re enter data.');
+ rollback;
+END;
+select * from student
+select * from branch

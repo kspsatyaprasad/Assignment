@@ -1,0 +1,26 @@
+
+
+create or replace function Fetch_Multiple_Rows
+   return sys_refcursor
+is
+   c   sys_refcursor;
+begin
+   open c for
+      select *
+        from theatre;
+
+   return c;
+end Fetch_Multiple_Rows;
+
+declare
+c sys_refcursor;
+TYPE theatre is RECORD(seating_number number,movie_name varchar2(30),ticket_price number);
+rec theatre;
+begin
+  c:=Fetch_Multiple_Rows();
+  loop
+  fetch c into rec;
+  exit when c%notfound;
+  dbms_output.put_line(rec.seating_number||','||rec.movie_name||','||rec.ticket_price);
+  end loop;
+end;
